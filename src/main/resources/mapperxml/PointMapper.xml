@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huifer.springbootgis.mapper.PointMapper">
+  <resultMap id="BaseResultMap" type="com.huifer.springbootgis.entity.PointTable">
+    <!--@mbg.generated-->
+    <!--@Table point-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="geom" jdbcType="OTHER" property="geom" />
+    <result column="geo_hash" jdbcType="VARCHAR" property="geoHash" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `name`, astext(geom) as geom, geo_hash
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from point
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from point
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.huifer.springbootgis.entity.PointTable" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into point (`name`, geom, geo_hash
+      )
+    values (#{name,jdbcType=VARCHAR}, geomfromtext(#{geom,jdbcType=VARCHAR}) , #{geoHash,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.huifer.springbootgis.entity.PointTable" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into point
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `name`,
+      </if>
+      <if  test="geom != null  and geom!='' ">
+        geom,
+      </if>
+      <if test="geoHash != null">
+        geo_hash,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="geom != null  and geom!=''">
+        geomfromtext(#{geom,jdbcType=VARCHAR})
+      </if>
+      <if test="geoHash != null">
+        #{geoHash,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.huifer.springbootgis.entity.PointTable">
+    <!--@mbg.generated-->
+    update point
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="geom != null  and geom!=''">
+        geom = geomfromtext(#{geom,jdbcType=VARCHAR}),
+      </if>
+      <if test="geoHash != null">
+        geo_hash = #{geoHash,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.huifer.springbootgis.entity.PointTable">
+    <!--@mbg.generated-->
+    update point
+    set `name` = #{name,jdbcType=VARCHAR},
+      geom =  geomfromtext(#{geom,jdbcType=VARCHAR}),
+      geo_hash = #{geoHash,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
